@@ -34,7 +34,7 @@ float stLEOP=0.5; //stiffness for opposite LEs
 float stSKIP=0.5;  //stiffness for every other consecutive LE
 float stLAT=0.5;   //stiffness for consecutive LEs
 int steps=200;
-int len=32;
+int len=36;
 int it=0;
 float msec=0;
 PFont font;
@@ -70,19 +70,8 @@ alllinks=new Link[(3*(len))+(3*(len-1))+(2*(len-2))];
      CEs[i]=     new Point(-(ww/4)+i*ldist,0,random(1)/100000,1,0.0,ldist*3); //put the CEs in their own array
     allpts[pindex++]=CEs[i];
    }
-//    for (int i=0;i<len;i++) {
-//    LEs[0][i] = new Point(-(ww/4)+i*ldist,sdist,(len/4)*sin(PI*i/len)+(random(1)/10000),1,0.0,ldist*3);//put the LEs in their own array
-//    allpts[pindex++]=LEs[0][i];
-//    LEs[1][i] = new Point(-(ww/4)+i*ldist,-sdist,(len/4)*sin(PI*i/len)+(random(1)/10000),1,0.0,ldist*3);
-//    allpts[pindex++]=LEs[1][i];
-//    CEs[i]=     new Point(-(ww/4)+i*ldist,0,(len/4)*sin(PI*i/len)+(random(1)/10000),1,0.0,ldist*3); //put the CEs in their own array
-//    allpts[pindex++]=CEs[i];
-//  }
 
-  
-//  CEs[0].setU(true); //make left end of CE unyielding
-//  LEs[0][0].setU(true);
-//  LEs[1][0].setU(true);  
+
   for (int i=0;i<len;i++) {
     LinkAcross[0][i]=new Link(LEs[0][i],CEs[i],stLC);LinkAcross[0][i].setC(sdist);alllinks[lindex++]=LinkAcross[0][i];
     LinkAcross[1][i]=new Link(LEs[0][i],LEs[1][i],stLEOP);LinkAcross[1][i].setC(sdist*2);alllinks[lindex++]=LinkAcross[1][i];
@@ -104,44 +93,12 @@ alllinks=new Link[(3*(len))+(3*(len-1))+(2*(len-2))];
 }
 
 void draw() {
-//float dx, dy, dz;
-//final float dth=2*PI/200000; //2*pi divided by # of steps
-//final float ddi=dth*8*sdist*len; //2*pi*Diameter divided by # of steps
-
-//this is just the Brownian noise code––shouldn't be in draw()
-//for (Point p : allpts) {
-//dx=(random(1)/Kd)-(0.5/Kd);
-//dy=(random(1)/Kd)-(0.5/Kd);
-//dz=(random(1)/Kd)-(0.5/Kd);
-//p.add(dx,dy,dz);
-//p.add(dx,dy,dz);
-//p.add(dx,dy,dz);
-//}
-//
-//  for (int i=0;i<(len-1);i++) {
-//          Link ltmp=LinkConsec[1][i];
-//          ltmp.setC(ldist+(.02*sin(1*(PI/steps)*it%steps)));
-//  }
 
 background(50,100);
 
-//LEs[0][0].add((sin((it%steps)/51))/2,(cos((it%steps)/50))/2,0);
-//LEs[1][0].add((sin((it%steps)/51))/2,(cos((it%steps)/50))/2,0);
-//CEs [0].add((sin((it%steps)/51))/2,(cos((it%steps)/50))/2,0);
-
-
 
   for (int j=steps;j>=0;j--) {
-if(0==(it%100000)) {sepon=(!sepon);}    
-//    if (it>30000 & it < 5000000 & ((it%100000)<50000)) {
-// // LEs[0][0].add(ddi*sin(theta)/10,ddi*cos(theta)/10,0);
-// // LEs[0][0].add(ddi*sin(theta)/10,ddi*cos(theta)/10,0);
-//CEs[0].add(flip*ddi*sin(theta)/10,flip*ddi*cos(theta)/10,0);
-//  theta+=dth;
-//if(0==(it%100000)){flip=(-flip);}
-//}
-//
-    
+if(0==(it%20000)) {sepon=(!sepon);}    
     
     it++;
     rs.step();
@@ -150,10 +107,13 @@ if(0==(it%100000)) {sepon=(!sepon);}
     if (sepon) {
       for (int i=0;i<(len-1);i++) {
         Link ltmp=LinkConsec[1][i];
-if(abs(i-(len/2))==lstmp) {
-          ltmp.setC(ltmp.getC()-0.5);
+if(abs(i-((len-1)/2))==lstmp) 
+{
+print(i+" ");
+  ltmp.setC(ltmp.getC()-0.5);
 }
     }
+    print("\n");
     lstmp++;
     sepon=!sepon;
     }
